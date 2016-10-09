@@ -23,6 +23,8 @@ font-size: 20px;
 p.hospitality{
 font-family:Comic Sans ms;
 font-size: 30px;
+border: 10px groove purple;
+border-top-left-radius: 10px;
 }
 
 p.lolol{
