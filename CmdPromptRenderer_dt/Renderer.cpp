@@ -51,6 +51,15 @@ void Renderer::mainLoop()
 	case 'e':
 		_tri1->scale_up();
 		break;
+	case 'z':
+		_tri1->rotate_in_x();
+		break;
+	case 'x':
+		_tri1->rotate_in_y();
+		break;
+	case 'c':
+		_tri1->rotate_in_z();
+		break;
 	default:
 		break;
 	}

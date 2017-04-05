@@ -139,6 +139,7 @@
     <ClInclude Include="Object_2D.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="Screen.h" />
+    <ClInclude Include="Utility.h" />
     <ClInclude Include="Vector_3D.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

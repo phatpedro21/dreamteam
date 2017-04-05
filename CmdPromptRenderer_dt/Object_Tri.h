@@ -4,7 +4,6 @@
 #include "Screen.h"
 #include <iostream>
 #include <conio.h>
-
 #include <gmtl-0.6.1/gmtl/Matrix.h>
 #include <gmtl-0.6.1/gmtl/MatrixOps.h>
 
@@ -24,9 +23,14 @@ public:
 	void down();
 	void scale_up();
 	void scale_down();
+	void rotate_in_x();
+	void rotate_in_y();
+	void rotate_in_z();
+
+	void calc_world_to_local();
 private:
 	Vector_3D _p1, _p2, _p3, _v1, _v2, _v3, _origin;
-
+	float rot_angle_x, rot_angle_y, rot_angle_z, lr, ud;
 	/*DESCRIBED AS
 	
 	
@@ -40,6 +44,10 @@ private:
 	the new space and Translation describes the position where the new space is going to be 
 	relatively to the active space. */ 
 
-	Matrix44f world_to_local_m;
+	Matrix44f world_to_local_m, rot_m, trans_m, scale_m;
+
+
+	Vector_3D display_p1, display_p2, display_p3;
+
 };
 
