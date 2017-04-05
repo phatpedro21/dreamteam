@@ -16,6 +16,7 @@ public:
 	~Object_Tri();
 	void rasterise(Screen* screen, Camera* camera);
 	void local_to_proj(Screen* screen, Camera* camera, char icon, int i /*for testing*/);
+	void add_lines(Screen* screen, Vector_3D a, Vector_3D b);
 
 	void left();
 	void right();

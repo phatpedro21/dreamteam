@@ -1,4 +1,4 @@
 #pragma once
 
-#define V_WIDTH	40
-#define V_HEIGHT 20
+#define V_WIDTH	100
+#define V_HEIGHT 60

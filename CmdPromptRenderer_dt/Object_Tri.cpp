@@ -193,6 +193,19 @@ void Object_Tri::local_to_proj(Screen* screen, Camera* camera, char icon, int i)
 	mult(t_origin_m ,local_to_world_m, origin_m);
 	mult(t_pos_m, local_to_world_m, pos_m);
 
+	switch (i)
+	{
+	case 1:
+		display_p1.set(t_origin_m(0, 0) + t_pos_m(0, 0), t_origin_m(1, 0) + t_pos_m(1, 0), t_origin_m(2, 0) + t_pos_m(2, 0));
+		break;
+	case 2:
+		display_p2.set(t_origin_m(0, 0) + t_pos_m(0, 0), t_origin_m(1, 0) + t_pos_m(1, 0), t_origin_m(2, 0) + t_pos_m(2, 0));
+		break;
+	case 3:
+		display_p3.set(t_origin_m(0, 0) + t_pos_m(0, 0), t_origin_m(1, 0) + t_pos_m(1, 0), t_origin_m(2, 0) + t_pos_m(2, 0));
+		break;
+	}
+
 	//round point to int, and update screen buffer at that point;
 	Vector_3D pixel(t_origin_m(0,0) + t_pos_m(0, 0), t_origin_m(1, 0) + t_pos_m(1, 0), t_origin_m(2, 0) + t_pos_m(2, 0));
 	//Vector_3D pixel(0, origin_m(0, 1), origin_m(0, 2));
@@ -202,6 +215,119 @@ void Object_Tri::local_to_proj(Screen* screen, Camera* camera, char icon, int i)
 	}
 
 	std::cout << std::endl << std::endl << std::endl;
+}
+
+void Object_Tri::add_lines(Screen* screen, Vector_3D a, Vector_3D b)
+{
+
+	int diffY, diffZ, grad, step, x, y;
+	bool yPositive = true, zPositive = true;
+	//for p1 - p2
+	//find diff y
+	diffY = (unsigned int)a.y() - (unsigned int)b.y();
+	diffY = abs(diffY);
+	//find diff z
+	diffZ = (int)a.z() - (int)b.z();
+	diffZ = abs(diffZ);
+	if (a.y() < b.y())
+	{
+		yPositive = false;
+	}
+	if (a.z() < b.z())
+	{
+		zPositive = false;
+	}
+	step = 0;
+	if (diffZ < diffY)
+	{
+		std::cout << std::endl;
+		if (diffZ != 0)
+		{
+			grad = diffY / diffZ;
+			if (grad == 0)	grad = 1;
+		}
+		for (x = 1; x < diffY; x++)
+		{
+			if (diffZ != 0)
+			{
+				if (grad != 0 && x%grad == 0)
+				{
+					step++;
+				}
+
+				if (grad < 0)
+				{
+					step *= -1;
+				}
+			}			
+			if (yPositive && !zPositive && (int)a.y() - x > 0 && (int)a.y() - x < V_HEIGHT && (int)a.z() + step >= 0 && (int)a.z() + step < V_WIDTH)
+			{
+				//screen->viewBuffer[(int)a.y() - x][(int)a.z() + step] = '.';
+				screen->viewBuffer[(int)a.y() - x][(int)a.z() + step] = '.';
+			}
+			else if (!yPositive && !zPositive && (int)a.y() - x > 0 && (int)a.y() - x < V_HEIGHT && (int)a.z() + step >= 0 && (int)a.z() + step < V_WIDTH)
+			{
+				//screen->viewBuffer[(int)a.y() - x][(int)a.z() + step] = '.';
+				screen->viewBuffer[(int)a.y() + x][(int)a.z() + step] = '.';
+			}
+			else if (yPositive && zPositive && (int)a.y() + x > 0 && (int)a.y() + x < V_HEIGHT && (int)a.z() + step >= 0 && (int)a.z() + step < V_WIDTH)
+			{
+				//screen->viewBuffer[(int)a.y() + x][(int)a.z() + step] = '.';
+				screen->viewBuffer[(int)a.y() - x][(int)a.z() - step] = '.';
+			}
+			else if (!yPositive && zPositive && (int)a.y() + x > 0 && (int)a.y() + x < V_HEIGHT && (int)a.z() + step >= 0 && (int)a.z() + step < V_WIDTH)
+			{
+				//screen->viewBuffer[(int)a.y() + x][(int)a.z() + step] = '.';
+				screen->viewBuffer[(int)a.y() + x][(int)a.z() - step] = '.';
+			}			
+		}
+	}
+	else
+	{
+		if (diffY != 0)
+		{
+			grad = diffZ / diffY;
+		}
+		for (x = 1; x < diffZ; x++)
+		{
+			if (diffY != 0)
+			{
+				if (x%grad == 0)
+				{
+					step++;
+				}
+
+				if (grad < 0)
+				{
+					//step *= -1;
+				}
+			}			
+			if (zPositive && !yPositive && (int)a.z() + x > 0 && (int)a.z() + x < V_WIDTH && (int)a.y() + step >= 0 && (int)a.y() + step < V_HEIGHT)
+			{
+				//screen->viewBuffer[(int)a.y() - x][(int)a.z() + step] = '.';
+				screen->viewBuffer[(int)a.y() + step][(int)a.z() - x] = '.';
+			}
+			else if (!zPositive && !yPositive && (int)a.z() + x > 0 && (int)a.z() + x < V_WIDTH && (int)a.y() + step >= 0 && (int)a.y() + step < V_HEIGHT)
+			{
+				//screen->viewBuffer[(int)a.y() + x][(int)a.z() + step] = '.';
+				screen->viewBuffer[(int)a.y() + step][(int)a.z() + x] = '.';
+			}
+			else if (zPositive && yPositive && (int)a.z() + x > 0 && (int)a.z() + x < V_WIDTH && (int)a.y() + step >= 0 && (int)a.y() + step < V_HEIGHT)
+			{
+				//screen->viewBuffer[(int)a.y() + x][(int)a.z() + step] = '.';
+				screen->viewBuffer[(int)a.y() - step][(int)a.z() - x] = '.';
+			}
+			else if (!zPositive && yPositive && (int)a.z() + x > 0 && (int)a.z() + x < V_WIDTH && (int)a.y() + step >= 0 && (int)a.y() + step < V_HEIGHT)
+			{
+				//screen->viewBuffer[(int)a.y() + x][(int)a.z() + step] = '.';
+				screen->viewBuffer[(int)a.y() - step][(int)a.z() + x] = '.';
+			}
+		}
+	}
+
+	//for p2 - p3
+
+	//for p3 - p1
 }
 
 void Object_Tri::rasterise(Screen* screen, Camera* camera)
@@ -222,6 +348,9 @@ void Object_Tri::rasterise(Screen* screen, Camera* camera)
 	point[3] = 1;*/
 	local_to_proj(screen, camera, 'z', 3);	
 
+	add_lines(screen, display_p1, display_p2);
+	add_lines(screen, display_p2, display_p3);
+	add_lines(screen, display_p3, display_p1);
 }
 
 void Object_Tri::calc_world_to_local()

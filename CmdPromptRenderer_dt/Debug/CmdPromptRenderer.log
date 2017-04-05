@@ -1,3 +1,11 @@
-﻿  Object_Tri.cpp
+﻿  Screen.cpp
+  Object_Tri.cpp
+c:\users\peter\desktop\dreamteam\cmdpromptrenderer_dt\object_tri.cpp(223): warning C4101: 'y': unreferenced local variable
+  Camera.cpp
+  Generating Code...
+  Compiling...
+  main.cpp
+  Renderer.cpp
+  Generating Code...
   CmdPromptRenderer.vcxproj -> C:\Users\Peter\Desktop\dreamteam\CmdPromptRenderer_dt\Debug\CmdPromptRenderer.exe
   CmdPromptRenderer.vcxproj -> C:\Users\Peter\Desktop\dreamteam\CmdPromptRenderer_dt\Debug\CmdPromptRenderer.pdb (Partial PDB)
